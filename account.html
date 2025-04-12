@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your HART Co account to pre-order T-shirts and hoodies.">
+    <meta name="keywords" content="HART Co, T-shirts, hoodies, account, pre-order">
+    <title>Account - HART Co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
+</head>
+<body>
+    <div class="banner">Pre-Order Your Limited Drop Now!</div>
+    <header>
+        <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
+        <nav id="navMenu" aria-label="Main navigation">
+            <a href="index.html" class="gradient-text">Home</a>
+            <a href="shop.html" class="gradient-text">Shop</a>
+            <a href="contact.html" class="gradient-text">Contact</a>
+            <a href="account.html" class="gradient-text" id="loginLink">Account</a>
+            <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
+        </nav>
+        <div class="hamburger" id="hamburger">☰</div>
+    </header>
+
+    <main>
+        <section class="account">
+            <h1 class="gradient-text">Welcome, <span id="userName"></span>!</h1>
+            <p>Ready to pre-order our exclusive April 30 T-shirt and hoodie drop?</p>
+            <a href="shop.html" class="cta-btn">Pre-Order Now</a>
+            <button id="logoutBtn" class="cta-btn">Log Out</button>
+        </section>
+    </main>
+
+    <footer>
+        <p class="gradient-text">© 2025 HART Co Clothing. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://www.instagram.com/hartcoclothesofficial/" class="gradient-text">Instagram</a>
+            <a href="https://x.com/HartCoClothes" class="gradient-text">Twitter</a>
+        </div>
+    </footer>
+
+    <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
+    <script src="scripts.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userName').textContent = user.name;
+        }
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('user');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
