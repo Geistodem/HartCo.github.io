@@ -19,7 +19,7 @@
             <a href="index.html" class="gradient-text">Home</a>
             <a href="shop.html" class="gradient-text">Shop</a>
             <a href="contact.html" class="gradient-text">Contact</a>
-            <a href="login.html" class="gradient-text" id="loginLink">Login</a>
+            <a href="account.html" class="gradient-text" id="loginLink">Account</a>
             <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
         </nav>
         <div class="hamburger" id="hamburger">☰</div>
@@ -82,5 +82,21 @@
 
     <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
     <script src="scripts.js"></script>
+    <script>
+        document.querySelectorAll('.snipcart-add-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const user = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (user) {
+                    let users = JSON.parse(localStorage.getItem('users')) || [];
+                    let currentUser = users.find(u => u.email === user.email);
+                    if (currentUser) {
+                        const itemName = btn.dataset.itemName;
+                        currentUser.preOrders.push(itemName);
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
