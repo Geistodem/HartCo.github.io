@@ -33,4 +33,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         updateCountdown();
     }
+
+    // Login system
+    const loginLink = document.getElementById('loginLink');
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        loginLink.textContent = 'Account';
+        loginLink.href = 'account.html';
+    }
+
+    // Protect shop page
+    if (window.location.pathname.includes('shop.html') && !user) {
+        window.location.href = 'login.html';
+    }
 });
