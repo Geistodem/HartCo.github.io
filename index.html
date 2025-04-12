@@ -43,65 +43,118 @@
       text-decoration: none;
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
     nav a {
       text-decoration: none;
       margin-left: 1.5rem;
       font-weight: 600;
     }
 
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-top: 2rem;
-    }
-
-    .cta-button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background-color: var(--secondary-color);
-      color: var(--main-color);
-      font-weight: bold;
-      margin-top: 2rem;
-      text-decoration: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
-    }
-
-    .cta-button:hover {
-      background-color: #e5e5dc;
+    .cart-icon {
+      margin-left: 1.5rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
     }
 
     footer {
       text-align: center;
       padding: 2rem;
     }
+
+    .hero {
+      height: 100vh;
+      background-image: url('assets/nashville-skyline.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .overlay {
+      background-color: rgba(28, 28, 28, 0.7);
+      padding: 2rem;
+      border-radius: 10px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid var(--secondary-color);
+      color: var(--secondary-color);
+      font-weight: bold;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background-color: var(--secondary-color);
+      color: var(--main-color);
+    }
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html" class="logo gradient-text">🦌 HART Co</a>
+    <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
     <nav>
       <a href="home.html" class="gradient-text">Home</a>
       <a href="shop.html" class="gradient-text">Shop</a>
       <a href="contact.html" class="gradient-text">Contact</a>
+      <span class="cart-icon gradient-text" id="cartIcon">🛒 Cart</span>
     </nav>
   </header>
 
-  <main class="hero">
-    <h1 class="gradient-text">Welcome to HART Co</h1>
-    <p class="gradient-text">Explore our premium clothing designed for style and comfort.</p>
-    <a href="shop.html" class="cta-button">Shop Now</a>
-    <img src="assets/skyline.png" alt="Skyline of Tennessee Cities" />
+  <main>
+    <section class="hero">
+      <div class="overlay">
+        <h1 class="gradient-text" id="heroText"></h1>
+        <p class="gradient-text">Minimalist. Bold. HART Co.</p>
+        <a href="shop.html" class="cta-btn">Shop Now</a>
+      </div>
+    </section>
   </main>
 
   <footer>
     <p class="gradient-text">&copy; 2025 HART Co. All rights reserved.</p>
   </footer>
+
+  <script>
+    const phrases = ["Elevate Your Wardrobe", "Define Your Look", "Lead with Heart"];
+    let currentPhrase = 0;
+    let currentChar = 0;
+    const heroText = document.getElementById("heroText");
+
+    function typeEffect() {
+      if (currentChar < phrases[currentPhrase].length) {
+        heroText.textContent += phrases[currentPhrase].charAt(currentChar);
+        currentChar++;
+        setTimeout(typeEffect, 100);
+      } else {
+        setTimeout(() => {
+          heroText.textContent = "";
+          currentChar = 0;
+          currentPhrase = (currentPhrase + 1) % phrases.length;
+          typeEffect();
+        }, 2000);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      typeEffect();
+
+      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      if (cart.length > 0) {
+        document.getElementById('cartIcon').style.display = 'inline';
+      }
+    });
+  </script>
 </body>
 </html>
