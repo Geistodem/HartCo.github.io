@@ -232,6 +232,11 @@ footer {
     border-color: #ffffff;
 }
 
+.login form p.error {
+    color: #ff6666;
+    font-size: 0.9rem;
+}
+
 .social-links {
     margin-top: var(--spacing-md);
 }
