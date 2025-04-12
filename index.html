@@ -1,160 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HART Co</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --main-color: #1c1c1c;
-      --secondary-color: #f5f5f0;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background-color: var(--main-color);
-      color: var(--secondary-color);
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, var(--secondary-color), #a9a9a9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: var(--main-color);
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-    }
-
-    nav a {
-      text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 600;
-    }
-
-    .cart-icon {
-      margin-left: 1.5rem;
-      font-size: 1.2rem;
-      cursor: pointer;
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .hero {
-      height: 100vh;
-      background-image: url('assets/nashville-skyline.jpg');
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .overlay {
-      background-color: rgba(28, 28, 28, 0.7);
-      padding: 2rem;
-      border-radius: 10px;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      margin-top: 1.5rem;
-      padding: 0.75rem 1.5rem;
-      border: 2px solid var(--secondary-color);
-      color: var(--secondary-color);
-      font-weight: bold;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .cta-btn:hover {
-      background-color: var(--secondary-color);
-      color: var(--main-color);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HART Co: Minimalist T-shirts and hoodies from Nashville. Pre-order our first drop now!">
+    <meta name="keywords" content="HART Co, minimalist clothing, T-shirts, hoodies, Nashville brand, pre-order">
+    <meta name="author" content="HART Co">
+    <title>HART Co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
 </head>
 <body>
-  <header>
-    <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
-    <nav>
-      <a href="index.html" class="gradient-text">Home</a>
-      <a href="shop.html" class="gradient-text">Shop</a>
-      <a href="contact.html" class="gradient-text">Contact</a>
-      <span class="cart-icon gradient-text" id="cartIcon">🛒 Cart</span>
-    </nav>
-  </header>
+    <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
+    <header>
+        <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
+        <nav id="navMenu" aria-label="Main navigation">
+            <a href="index.html" class="gradient-text">Home</a>
+            <a href="shop.html" class="gradient-text">Shop</a>
+            <a href="contact.html" class="gradient-text">Contact</a>
+            <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
+        </nav>
+        <div class="hamburger" id="hamburger">☰</div>
+    </header>
 
-  <main>
-    <section class="hero">
-      <div class="overlay">
-        <h1 class="gradient-text" id="heroText"></h1>
-        <p class="gradient-text">Minimalist. Bold. HART Co.</p>
-        <a href="shop.html" class="cta-btn">Shop Now</a>
-      </div>
-    </section>
-  </main>
+    <main>
+        <section class="hero">
+            <picture>
+                <source srcset="assets/hero.webp" type="image/webp">
+                <img src="assets/hero.jpg" alt="Person wearing minimalist HART Co T-shirt in Nashville">
+            </picture>
+            <div class="overlay">
+                <h1 id="heroText"></h1>
+                <p>Minimalist. Bold. Nashville-Crafted.</p>
+                <p class="countdown" id="countdown"></p>
+                <a href="shop.html" class="cta-btn">Pre-Order Now</a>
+            </div>
+        </section>
 
-  <footer>
-    <p class="gradient-text">&copy; 2025 HART Co Clothing. All rights reserved.</p>
-  </footer>
+        <section class="about">
+            <h2 class="gradient-text">Made with Heart</h2>
+            <p>At HART Co, we handcraft T-shirts and hoodies in Nashville using sustainable fabrics. Our first drop launches April 30—grab your limited pre-order today!</p>
+            <a href="contact.html" class="cta-btn">Join the List</a>
+        </section>
 
-  <script>
-    const phrases = ["Elevate Your Wardrobe", "Define Your Look", "Lead with Heart"];
-    let currentPhrase = 0;
-    let currentChar = 0;
-    const heroText = document.getElementById("heroText");
+        <section class="featured">
+            <h2 class="gradient-text">First Drop Preview</h2>
+            <div class="product-grid">
+                <div class="product">
+                    <img src="assets/tee.jpg" alt="Handmade HART Co Basic Tee">
+                    <h3>Basic Tee</h3>
+                    <p>$29.99</p>
+                    <a href="shop.html" class="cta-btn">Pre-Order</a>
+                </div>
+                <div class="product">
+                    <img src="assets/hoodie.jpg" alt="Handmade HART Co Minimalist Hoodie">
+                    <h3>Minimalist Hoodie</h3>
+                    <p>$49.99</p>
+                    <a href="shop.html" class="cta-btn">Pre-Order</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    function typeEffect() {
-      if (currentChar < phrases[currentPhrase].length) {
-        heroText.textContent += phrases[currentPhrase].charAt(currentChar);
-        currentChar++;
-        setTimeout(typeEffect, 100);
-      } else {
-        setTimeout(() => {
-          heroText.textContent = "";
-          currentChar = 0;
-          currentPhrase = (currentPhrase + 1) % phrases.length;
-          typeEffect();
-        }, 2000);
-      }
-    }
+    <footer>
+        <p class="gradient-text">© 2025 HART Co Clothing. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://www.instagram.com/hartcoclothesofficial/" class="gradient-text">Instagram</a>
+            <a href="https://x.com/HartCoClothes" class="gradient-text">Twitter</a>
+        </div>
+    </footer>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      typeEffect();
+    <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
+    <script src="scripts.js"></script>
+    <script>
+        const phrases = ["Lead with Heart", "Drops April 30", "Limited First Drop"];
+        let currentPhrase = 0;
+        let currentChar = 0;
+        const heroText = document.getElementById("heroText");
 
-      const cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-      if (cart.length > 0) {
-        document.getElementById('cartIcon').style.display = 'inline';
-      }
-    });
-  </script>
+        function typeEffect() {
+            if (currentChar < phrases[currentPhrase].length) {
+                heroText.textContent += phrases[currentPhrase].charAt(currentChar);
+                currentChar++;
+                setTimeout(typeEffect, 100);
+            } else {
+                setTimeout(() => {
+                    heroText.textContent = "";
+                    currentChar = 0;
+                    currentPhrase = (currentPhrase + 1) % phrases.length;
+                    typeEffect();
+                }, 2000);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            typeEffect();
+        });
+    </script>
 </body>
 </html>
