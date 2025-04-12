@@ -1,11 +1,10 @@
 // Simple SHA-256 hash (for demo only)
 function hashPassword(password) {
-    // In production, use proper server-side hashing
     let hash = 0;
     for (let i = 0; i < password.length; i++) {
         const char = password.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32-bit integer
+        hash = hash & hash;
     }
     return hash.toString();
 }
@@ -61,4 +60,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if ((window.location.pathname.includes('shop.html') || window.location.pathname.includes('account.html')) && !loggedInUser) {
         window.location.href = 'login.html';
     }
+
+    // Cart icon visibility
+    const cartIcons = document.querySelectorAll('.cart-icon');
+    const updateCartVisibility = () => {
+        const cartCount = parseInt(document.querySelector('.snipcart-items-count')?.textContent || '0', 10);
+        cartIcons.forEach(icon => {
+            if (cartCount > 0) {
+                icon.classList.add('active');
+            } else {
+                icon.classList.remove('active');
+            }
+        });
+    };
+
+    // Initial check
+    updateCartVisibility();
+
+    // Listen for Snipcart events
+    document.addEventListener('snipcart.ready', () => {
+        Snipcart.events.on('cart.confirmed', () => {
+            updateCartVisibility();
+        });
+        Snipcart.events.on('item.added', () => {
+            updateCartVisibility();
+        });
+        Snipcart.events.on('item.removed', () => {
+            updateCartVisibility();
+        });
+    });
 });
