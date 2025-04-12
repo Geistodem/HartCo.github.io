@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Log in or sign up to pre-order HART Co’s T-shirts and hoodies.">
+    <meta name="keywords" content="HART Co, T-shirts, hoodies, login, sign up, pre-order">
+    <title>Login - HART Co</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
+</head>
+<body>
+    <div class="banner">Log In to Pre-Order the April 30 Drop!</div>
+    <header>
+        <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
+        <nav id="navMenu" aria-label="Main navigation">
+            <a href="index.html" class="gradient-text">Home</a>
+            <a href="shop.html" class="gradient-text">Shop</a>
+            <a href="contact.html" class="gradient-text">Contact</a>
+            <a href="login.html" class="gradient-text" id="loginLink">Login</a>
+            <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
+        </nav>
+        <div class="hamburger" id="hamburger">☰</div>
+    </header>
+
+    <main>
+        <section class="login">
+            <h1 class="gradient-text">Access the Drop</h1>
+            <p>Log in or sign up to pre-order our limited T-shirts and hoodies.</p>
+            <form id="loginForm">
+                <input type="email" name="email" placeholder="Email" required aria-label="Email">
+                <input type="password" name="password" placeholder="Password" required aria-label="Password">
+                <button type="submit" class="cta-btn" id="loginBtn">Log In</button>
+                <button type="button" class="cta-btn" id="toggleSignup">Need an Account? Sign Up</button>
+            </form>
+            <form id="signupForm" style="display: none;">
+                <input type="text" name="name" placeholder="Your Name" required aria-label="Name">
+                <input type="email" name="email" placeholder="Email" required aria-label="Email">
+                <input type="password" name="password" placeholder="Password" required aria-label="Password">
+                <button type="submit" class="cta-btn">Sign Up</button>
+                <button type="button" class="cta-btn" id="toggleLogin">Have an Account? Log In</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p class="gradient-text">© 2025 HART Co Clothing. All rights reserved.</p>
+        <div class="social-links">
+            <a href="https://www.instagram.com/hartcoclothesofficial/" class="gradient-text">Instagram</a>
+            <a href="https://x.com/HartCoClothes" class="gradient-text">Twitter</a>
+        </div>
+    </footer>
+
+    <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
+    <script src="scripts.js"></script>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const toggleSignup = document.getElementById('toggleSignup');
+        const toggleLogin = document.getElementById('toggleLogin');
+
+        toggleSignup.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+        });
+
+        toggleLogin.addEventListener('click', () => {
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = signupForm.name.value;
+            const email = signupForm.email.value;
+            const password = signupForm.password.value;
+            // Simulate hashing (not secure for production)
+            localStorage.setItem('user', JSON.stringify({ name, email, password }));
+            alert('Account created! Logging you in.');
+            window.location.href = 'account.html';
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginForm.email.value;
+            const password = loginForm.password.value;
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user && user.email === email && user.password === password) {
+                alert('Logged in!');
+                window.location.href = 'account.html';
+            } else {
+                alert('Invalid email or password.');
+            }
+        });
+    </script>
+</body>
+</html>
