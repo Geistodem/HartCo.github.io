@@ -1,3 +1,15 @@
+// Simple SHA-256 hash (for demo only)
+function hashPassword(password) {
+    // In production, use proper server-side hashing
+    let hash = 0;
+    for (let i = 0; i < password.length; i++) {
+        const char = password.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    return hash.toString();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Hamburger menu
     const hamburger = document.getElementById('hamburger');
@@ -36,14 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Login system
     const loginLink = document.getElementById('loginLink');
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser) {
         loginLink.textContent = 'Account';
         loginLink.href = 'account.html';
+    } else {
+        loginLink.textContent = 'Login';
+        loginLink.href = 'login.html';
     }
 
-    // Protect shop page
-    if (window.location.pathname.includes('shop.html') && !user) {
+    // Protect shop and account pages
+    if ((window.location.pathname.includes('shop.html') || window.location.pathname.includes('account.html')) && !loggedInUser) {
         window.location.href = 'login.html';
     }
 });
