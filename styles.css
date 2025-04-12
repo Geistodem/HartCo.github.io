@@ -122,12 +122,15 @@ footer {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 1;
 }
 
 .overlay {
     background-color: rgba(28, 28, 28, 0.7);
     padding: var(--spacing-lg);
     border-radius: 10px;
+    position: relative;
+    z-index: 2;
 }
 
 .hero h1 {
@@ -194,17 +197,17 @@ footer {
     color: var(--secondary-color);
 }
 
-.shop, .cart, .contact {
+.shop, .cart, .contact, .login, .account {
     padding: var(--spacing-lg);
     text-align: center;
 }
 
-.shop h1, .cart h1, .contact h1 {
+.shop h1, .cart h1, .contact h1, .login h1, .account h1 {
     font-size: 2rem;
     margin-bottom: var(--spacing-md);
 }
 
-.contact form {
+.contact form, .login form, .account form {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
@@ -212,7 +215,7 @@ footer {
     margin: 0 auto;
 }
 
-.contact input, .contact textarea {
+.contact input, .contact textarea, .contact select, .login input {
     padding: var(--spacing-sm);
     border: 2px solid var(--secondary-color);
     background: transparent;
@@ -220,7 +223,11 @@ footer {
     border-radius: 5px;
 }
 
-.contact input:focus, .contact textarea:focus {
+.contact select {
+    background: var(--main-color);
+}
+
+.contact input:focus, .contact textarea:focus, .contact select:focus, .login input:focus {
     outline: none;
     border-color: #ffffff;
 }
