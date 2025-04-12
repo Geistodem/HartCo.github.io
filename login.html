@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
 </head>
 <body>
-    <div class="banner">Log In to Pre-Order the April 30 Drop!</div>
+    <div class="banner">Sign Up to Join the 50 Pre-Order Club!</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
@@ -28,17 +28,20 @@
     <main>
         <section class="login">
             <h1 class="gradient-text">Access the Drop</h1>
-            <p>Log in or sign up to pre-order our limited T-shirts and hoodies.</p>
+            <p>Log in or sign up to pre-order our limited April 30 drop.</p>
             <form id="loginForm">
                 <input type="email" name="email" placeholder="Email" required aria-label="Email">
                 <input type="password" name="password" placeholder="Password" required aria-label="Password">
-                <button type="submit" class="cta-btn" id="loginBtn">Log In</button>
+                <p class="error" id="loginError" style="display: none;"></p>
+                <button type="submit" class="cta-btn">Log In</button>
                 <button type="button" class="cta-btn" id="toggleSignup">Need an Account? Sign Up</button>
             </form>
             <form id="signupForm" style="display: none;">
                 <input type="text" name="name" placeholder="Your Name" required aria-label="Name">
                 <input type="email" name="email" placeholder="Email" required aria-label="Email">
                 <input type="password" name="password" placeholder="Password" required aria-label="Password">
+                <input type="password" name="confirmPassword" placeholder="Confirm Password" required aria-label="Confirm Password">
+                <p class="error" id="signupError" style="display: none;"></p>
                 <button type="submit" class="cta-btn">Sign Up</button>
                 <button type="button" class="cta-btn" id="toggleLogin">Have an Account? Log In</button>
             </form>
@@ -60,15 +63,19 @@
         const signupForm = document.getElementById('signupForm');
         const toggleSignup = document.getElementById('toggleSignup');
         const toggleLogin = document.getElementById('toggleLogin');
+        const loginError = document.getElementById('loginError');
+        const signupError = document.getElementById('signupError');
 
         toggleSignup.addEventListener('click', () => {
             loginForm.style.display = 'none';
             signupForm.style.display = 'block';
+            loginError.style.display = 'none';
         });
 
         toggleLogin.addEventListener('click', () => {
             signupForm.style.display = 'none';
             loginForm.style.display = 'block';
+            signupError.style.display = 'none';
         });
 
         signupForm.addEventListener('submit', (e) => {
@@ -76,8 +83,25 @@
             const name = signupForm.name.value;
             const email = signupForm.email.value;
             const password = signupForm.password.value;
-            // Simulate hashing (not secure for production)
-            localStorage.setItem('user', JSON.stringify({ name, email, password }));
+            const confirmPassword = signupForm.confirmPassword.value;
+
+            if (password !== confirmPassword) {
+                signupError.textContent = 'Passwords do not match.';
+                signupError.style.display = 'block';
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.some(user => user.email === email)) {
+                signupError.textContent = 'Email already registered.';
+                signupError.style.display = 'block';
+                return;
+            }
+
+            const hashedPassword = hashPassword(password);
+            users.push({ name, email, password: hashedPassword, preOrders: [] });
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('loggedInUser', JSON.stringify({ name, email }));
             alert('Account created! Logging you in.');
             window.location.href = 'account.html';
         });
@@ -86,12 +110,17 @@
             e.preventDefault();
             const email = loginForm.email.value;
             const password = loginForm.password.value;
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user && user.email === email && user.password === password) {
-                alert('Logged in!');
+            const hashedPassword = hashPassword(password);
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            const user = users.find(u => u.email === email && u.password === hashedPassword);
+            if (user) {
+                localStorage.setItem('loggedInUser', JSON.stringify({ name: user.name, email: user.email }));
+                alert('Logged in successfully!');
                 window.location.href = 'account.html';
             } else {
-                alert('Invalid email or password.');
+                loginError.textContent = 'Invalid email or password.';
+                loginError.style.display = 'block';
             }
         });
     </script>
