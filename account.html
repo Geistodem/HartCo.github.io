@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
 </head>
 <body>
-    <div class="banner">Pre-Order Your Limited Drop Now!</div>
+    <div class="banner">Only 50 Pre-Orders Total! Secure Yours!</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
@@ -28,7 +28,8 @@
     <main>
         <section class="account">
             <h1 class="gradient-text">Welcome, <span id="userName"></span>!</h1>
-            <p>Ready to pre-order our exclusive April 30 T-shirt and hoodie drop?</p>
+            <p>Join our exclusive April 30 drop—only 50 pre-orders available!</p>
+            <p id="preOrderStatus">You haven’t pre-ordered yet.</p>
             <a href="shop.html" class="cta-btn">Pre-Order Now</a>
             <button id="logoutBtn" class="cta-btn">Log Out</button>
         </section>
@@ -45,15 +46,20 @@
     <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
     <script src="scripts.js"></script>
     <script>
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem('loggedInUser'));
         if (!user) {
             window.location.href = 'login.html';
         } else {
             document.getElementById('userName').textContent = user.name;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const currentUser = users.find(u => u.email === user.email);
+            if (currentUser && currentUser.preOrders.length > 0) {
+                document.getElementById('preOrderStatus').textContent = `You’ve pre-ordered ${currentUser.preOrders.length} item(s).`;
+            }
         }
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('user');
+            localStorage.removeItem('loggedInUser');
             window.location.href = 'index.html';
         });
     </script>
