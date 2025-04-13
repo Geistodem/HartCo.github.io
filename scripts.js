@@ -24,14 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Active page
+    // Active page (with normalized URLs)
     document.querySelectorAll('nav a').forEach(link => {
-        if (link.href === window.location.href) {
+        const linkPath = new URL(link.href).pathname;
+        const currentPath = new URL(window.location.href).pathname;
+        if (linkPath === currentPath) {
             link.classList.add('active');
         }
     });
 
-    // Countdown timer
+    // Countdown timer (with minutes)
     const countdownElement = document.getElementById('countdown');
     if (countdownElement) {
         const launchDate = new Date('2025-04-30T23:59:59').getTime();
@@ -44,21 +46,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            countdownElement.textContent = `${days}d ${hours}h to launch!`;
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            countdownElement.textContent = `${days}d ${hours}h ${minutes}m to launch!`;
             setTimeout(updateCountdown, 1000);
         };
         updateCountdown();
     }
 
-    // Handle authentication state
+    // Handle authentication state (with null check)
     const loginLink = document.getElementById('loginLink');
     auth.onAuthStateChanged(user => {
-        if (user) {
-            loginLink.textContent = 'Account';
-            loginLink.href = 'account.html';
-        } else {
-            loginLink.textContent = 'Login';
-            loginLink.href = 'login.html';
+        if (loginLink) {
+            if (user) {
+                loginLink.textContent = 'Account';
+                loginLink.href = 'account.html';
+            } else {
+                loginLink.textContent = 'Login';
+                loginLink.href = 'login.html';
+            }
         }
 
         // Protect account page
@@ -100,12 +105,27 @@ document.addEventListener('DOMContentLoaded', () => {
         Snipcart.events.on('item.removed', () => {
             updateCartVisibility();
         });
+
+        // Limit pre-orders to 50
+        Snipcart.events.on('item.adding', (item) => {
+            return db.collectionGroup('preOrders').get()
+                .then(snapshot => {
+                    if (snapshot.size >= 50) {
+                        alert('Sorry, we’ve reached our 50 pre-order limit!');
+                        throw new Error('Pre-order limit reached');
+                    }
+                });
+        });
     });
 
-    // Require login to add items to cart
+    // Require login to add items to cart (with debouncing)
     const addToCartButtons = document.querySelectorAll('.snipcart-add-item');
     addToCartButtons.forEach(button => {
+        let isProcessing = false;
         button.addEventListener('click', (e) => {
+            if (isProcessing) return;
+            isProcessing = true;
+            setTimeout(() => { isProcessing = false; }, 1000);
             if (!auth.currentUser) {
                 e.preventDefault();
                 alert('Please log in to add items to your cart.');
@@ -114,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Login/Signup form handling
+    // Login/Signup form handling (with password length validation)
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -128,6 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Sign-up
                 if (password !== confirmPassword) {
                     alert('Passwords do not match.');
+                    return;
+                }
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters long.');
                     return;
                 }
                 auth.createUserWithEmailAndPassword(email, password)
@@ -153,22 +177,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Logout
+    // Logout (with error handling)
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
-            auth.signOut().then(() => {
-                window.location.href = 'index.html';
-            });
+            auth.signOut()
+                .then(() => {
+                    window.location.href = 'index.html';
+                })
+                .catch(error => {
+                    alert('Error signing out: ' + error.message);
+                });
         });
     }
 });
 
-// Load user's pre-orders from Firestore
+// Load user's pre-orders from Firestore (with loading state and error handling)
 function loadUserPreOrders(uid) {
     const preOrdersList = document.getElementById('preOrdersList');
     if (!preOrdersList) return;
 
+    preOrdersList.innerHTML = '<p>Loading...</p>';
     db.collection('users').doc(uid).collection('preOrders').get()
         .then(querySnapshot => {
             preOrdersList.innerHTML = '';
@@ -185,10 +214,11 @@ function loadUserPreOrders(uid) {
         })
         .catch(error => {
             console.error('Error loading pre-orders:', error);
+            preOrdersList.innerHTML = '<p>Error loading pre-orders.</p>';
         });
 }
 
-// Save pre-order to Firestore when Snipcart order is confirmed
+// Save pre-order to Firestore when Snipcart order is confirmed (with error handling)
 document.addEventListener('snipcart.ready', () => {
     Snipcart.events.on('cart.confirmed', (cart) => {
         const user = auth.currentUser;
@@ -198,6 +228,8 @@ document.addEventListener('snipcart.ready', () => {
                     itemName: item.name,
                     price: item.price,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).catch(error => {
+                    console.error('Error saving pre-order:', error);
                 });
             });
         }
