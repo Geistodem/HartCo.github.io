@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact HART Co for customer service or business inquiries about our Nashville-made clothing.">
-    <meta name="keywords" content="HART Co, T-shirts, hoodies, customer service, business inquiries, Nashville brand">
+    <meta name="description" content="Contact HART Co for inquiries about our minimalist clothing.">
+    <meta name="keywords" content="HART Co, contact, minimalist clothing">
+    <meta name="author" content="HART Co">
     <title>Contact - HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="banner">Questions? Reach Out Today!</div>
+    <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
@@ -27,20 +32,14 @@
 
     <main>
         <section class="contact">
-            <h1 class="gradient-text">Get in Touch</h1>
-            <p>Have questions about your order or interested in collabs? Drop us a message.</p>
-            <form id="contactForm">
-                <input type="text" name="name" placeholder="Your Name" required aria-label="Name">
-                <input type="email" name="email" placeholder="Your Email" required aria-label="Email">
-                <select name="subject" required aria-label="Subject">
-                    <option value="" disabled selected>Select a Subject</option>
-                    <option value="Customer Service">Customer Service</option>
-                    <option value="Business Inquiry">Business Inquiry</option>
-                    <option value="Other">Other</option>
-                </select>
-                <textarea name="message" placeholder="Your Message" required aria-label="Message" rows="5"></textarea>
-                <button type="submit" class="cta-btn">Send Message</button>
-            </form>
+            <h1 class="gradient-text">Contact Us</h1>
+            <p>Have questions about our minimalist clothing? Reach out!</p>
+            <p>Email: <a href="mailto:support@hartco.com" class="gradient-text">support@hartco.com</a></p>
+            <p>Follow us on social media:</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/hartcoclothesofficial/" class="gradient-text">Instagram</a>
+                <a href="https://x.com/HartCoClothes" class="gradient-text">Twitter</a>
+            </div>
         </section>
     </main>
 
@@ -53,16 +52,6 @@
     </footer>
 
     <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
     <script src="scripts.js"></script>
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Message sent! We’ll get back to you soon.');
-            e.target.reset();
-        });
-    </script>
 </body>
 </html>
