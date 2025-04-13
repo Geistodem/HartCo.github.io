@@ -1,11 +1,11 @@
-// Firebase Configuration
+// Firebase Configuration (Replace with your actual config from Firebase Console)
 const firebaseConfig = {
-    apiKey: "AIzaSyC5kD1Yd5i2uEbYCe2q3Ck9q5g9gQ2q5A",
+    apiKey: "YOUR_API_KEY_HERE",
     authDomain: "hartco-1.firebaseapp.com",
     projectId: "hartco-1",
     storageBucket: "hartco-1.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdef123456"
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
