@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="View your HART Co pre-order cart and checkout securely.">
-    <meta name="keywords" content="HART Co, T-shirts, hoodies, cart, checkout, pre-order">
+    <meta name="description" content="View your cart and checkout with HART Co.">
+    <meta name="keywords" content="HART Co, cart, checkout, pre-order">
+    <meta name="author" content="HART Co">
     <title>Cart - HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="banner">Limited Pre-Orders Close April 30!</div>
+    <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
             <a href="index.html" class="gradient-text">Home</a>
             <a href="shop.html" class="gradient-text">Shop</a>
             <a href="contact.html" class="gradient-text">Contact</a>
+            <a href="login.html" class="gradient-text" id="loginLink">Login</a>
             <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
         </nav>
         <div class="hamburger" id="hamburger">☰</div>
@@ -26,13 +32,11 @@
 
     <main>
         <section class="cart">
-            <h1 class="gradient-text">Your Pre-Order Cart</h1>
-            <div class="snipcart-cart__content">
-                <div class="snipcart-cart__items"></div>
-                <div class="snipcart-cart__summary">
-                    <p>Total: <span class="snipcart-total-price"></span></p>
-                    <button class="snipcart-checkout cta-btn">Secure Checkout</button>
-                </div>
+            <h1 class="gradient-text">Your Cart</h1>
+            <div class="snipcart-checkout">
+                <p>Items in cart: <span class="snipcart-items-count">0</span></p>
+                <p>Total: <span class="snipcart-total-price">$0.00</span></p>
+                <button class="snipcart-checkout cta-btn">Checkout</button>
             </div>
         </section>
     </main>
@@ -46,9 +50,6 @@
     </footer>
 
     <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
     <script src="scripts.js"></script>
 </body>
 </html>
