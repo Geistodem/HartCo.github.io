@@ -1,13 +1,17 @@
-// Simple SHA-256 hash (for demo only)
-function hashPassword(password) {
-    let hash = 0;
-    for (let i = 0; i < password.length; i++) {
-        const char = password.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return hash.toString();
-}
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 document.addEventListener('DOMContentLoaded', () => {
     // Hamburger menu
@@ -45,21 +49,28 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCountdown();
     }
 
-    // Login system
+    // Handle authentication state
     const loginLink = document.getElementById('loginLink');
-    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (loggedInUser) {
-        loginLink.textContent = 'Account';
-        loginLink.href = 'account.html';
-    } else {
-        loginLink.textContent = 'Login';
-        loginLink.href = 'login.html';
-    }
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            loginLink.textContent = 'Account';
+            loginLink.href = 'account.html';
+        } else {
+            loginLink.textContent = 'Login';
+            loginLink.href = 'login.html';
+        }
 
-    // Protect account page only
-    if (window.location.pathname.includes('account.html') && !loggedInUser) {
-        window.location.href = 'login.html';
-    }
+        // Protect account page
+        if (window.location.pathname.includes('account.html') && !user) {
+            window.location.href = 'login.html';
+        }
+
+        // Update account page with user info
+        if (window.location.pathname.includes('account.html') && user) {
+            document.getElementById('userName').textContent = user.displayName || 'User';
+            loadUserPreOrders(user.uid);
+        }
+    });
 
     // Cart icon visibility
     const cartIcons = document.querySelectorAll('.cart-icon');
@@ -90,17 +101,104 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Add login check for adding items to cart
+    // Require login to add items to cart
     const addToCartButtons = document.querySelectorAll('.snipcart-add-item');
     addToCartButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-            if (!loggedInUser) {
-                e.preventDefault(); // Stop Snipcart action
+            if (!auth.currentUser) {
+                e.preventDefault();
                 alert('Please log in to add items to your cart.');
                 window.location.href = 'login.html';
             }
-            // If logged in, Snipcart will handle the add-to-cart action
         });
+    });
+
+    // Login/Signup form handling
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const name = document.getElementById('name')?.value;
+            const confirmPassword = document.getElementById('confirmPassword')?.value;
+
+            if (name && confirmPassword) {
+                // Sign-up
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match.');
+                    return;
+                }
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(userCredential => {
+                        return userCredential.user.updateProfile({ displayName: name });
+                    })
+                    .then(() => {
+                        window.location.href = 'account.html';
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                    });
+            } else {
+                // Login
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        window.location.href = 'account.html';
+                    })
+                    .catch(error => {
+                        alert(error.message);
+                    });
+            }
+        });
+    }
+
+    // Logout
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        });
+    }
+});
+
+// Load user's pre-orders from Firestore
+function loadUserPreOrders(uid) {
+    const preOrdersList = document.getElementById('preOrdersList');
+    if (!preOrdersList) return;
+
+    db.collection('users').doc(uid).collection('preOrders').get()
+        .then(querySnapshot => {
+            preOrdersList.innerHTML = '';
+            if (querySnapshot.empty) {
+                preOrdersList.innerHTML = '<p>No pre-orders yet.</p>';
+                return;
+            }
+            querySnapshot.forEach(doc => {
+                const order = doc.data();
+                const li = document.createElement('li');
+                li.textContent = `${order.itemName} - $${order.price}`;
+                preOrdersList.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Error loading pre-orders:', error);
+        });
+}
+
+// Save pre-order to Firestore when Snipcart order is confirmed
+document.addEventListener('snipcart.ready', () => {
+    Snipcart.events.on('cart.confirmed', (cart) => {
+        const user = auth.currentUser;
+        if (user) {
+            cart.items.items.forEach(item => {
+                db.collection('users').doc(user.uid).collection('preOrders').add({
+                    itemName: item.name,
+                    price: item.price,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+        }
     });
 });
