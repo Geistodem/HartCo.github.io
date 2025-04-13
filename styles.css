@@ -1,3 +1,10 @@
+css
+
+Collapse
+
+Wrap
+
+Copy
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -22,7 +29,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Dark overlay for readability */
+    background: rgba(0, 0, 0, 0.7);
     z-index: -1;
 }
 
@@ -251,6 +258,14 @@ h2 {
     transform: scale(1.05);
 }
 
+.cta-btn.danger {
+    background-color: rgba(200, 0, 0, 0.9);
+}
+
+.cta-btn.danger:hover {
+    background-color: rgba(220, 0, 0, 0.9);
+}
+
 /* Shop Page */
 .shop {
     text-align: center;
@@ -323,6 +338,40 @@ h2 {
     padding: 0.5rem;
     margin: 0.5rem 0;
     border-radius: 4px;
+}
+
+/* Account Settings */
+.settings {
+    max-width: 500px;
+    margin: 0 auto 2rem;
+    padding: 1rem;
+    background-color: rgba(42, 42, 42, 0.9);
+    border-radius: 8px;
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.settings-form label {
+    text-align: left;
+    font-weight: 600;
+}
+
+.settings-form input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: rgba(51, 51, 51, 0.9);
+    color: #fff;
+}
+
+.delete-account {
+    text-align: center;
 }
 
 /* Cart Page */
