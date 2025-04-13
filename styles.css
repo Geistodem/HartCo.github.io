@@ -127,34 +127,62 @@ h2 {
 
 /* Hero Section on Index Page */
 .hero {
+    position: relative;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: 0;
 }
 
-.hero p {
+.hero picture img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.hero .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+}
+
+.hero .overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero .overlay p {
     font-size: 1.2rem;
     color: #b0b0b0;
     margin-bottom: 1rem;
 }
 
-#countdown {
+.hero .countdown {
     font-size: 1.5rem;
     font-weight: 600;
     margin: 1rem 0;
 }
 
-/* Shop Page */
-.shop {
+/* About Section */
+.about {
     text-align: center;
+    padding: 4rem 2rem;
 }
 
-.note {
-    text-align: center;
-    color: #fff;
+.about p {
+    font-size: 1.2rem;
+    color: #b0b0b0;
     margin-bottom: 1rem;
-    font-style: italic;
 }
 
+/* Featured Section */
+.featured {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+/* Product Grid (used in Shop and Featured) */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -200,6 +228,18 @@ h2 {
 
 .cta-btn:hover {
     background-color: #555;
+}
+
+/* Shop Page */
+.shop {
+    text-align: center;
+}
+
+.note {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-style: italic;
 }
 
 /* Login Page */
