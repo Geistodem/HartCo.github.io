@@ -1,39 +1,40 @@
-:root {
-    --main-color: #1c1c1c;
-    --secondary-color: #f5f5f0;
-    --accent-color: #8b4513;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 2rem;
-}
-
+/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: var(--main-color);
-    color: var(--secondary-color);
+    font-family: 'Inter', sans-serif;
+    background-color: #1a1a1a; /* Dark background for minimalist vibe */
+    color: #fff;
+    line-height: 1.6;
 }
 
+/* Gradient Text for Branding */
 .gradient-text {
-    background: linear-gradient(90deg, #ffffff, #d3d3d3);
+    background: linear-gradient(90deg, #ffffff, #b0b0b0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
+/* Banner */
+.banner {
+    background-color: #333;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Header and Navigation */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md) var(--spacing-lg);
-    background-color: var(--main-color);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    padding: 1rem 2rem;
+    background-color: #222;
 }
 
 .logo {
@@ -44,246 +45,223 @@ header {
 
 nav {
     display: flex;
-    align-items: center;
+    gap: 1.5rem;
 }
 
 nav a {
     text-decoration: none;
-    margin-left: var(--spacing-md);
     font-weight: 600;
+    font-size: 1rem;
 }
 
 nav a.active {
-    border-bottom: 2px solid var(--secondary-color);
+    color: #fff;
+    font-weight: bold;
 }
 
-.cart-icon {
-    margin-left: var(--spacing-md);
-    font-size: 1.2rem;
-    text-decoration: none;
-    position: relative;
-    display: none; /* Hide by default */
-}
-
-.cart-icon.active {
-    display: inline-block; /* Show when active */
-}
-
-.snipcart-items-count {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--secondary-color);
-    color: var(--main-color);
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 0.8rem;
-}
-
+/* Hamburger Menu */
 .hamburger {
     display: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: var(--secondary-color);
-}
-
-footer {
-    text-align: center;
-    padding: var(--spacing-lg);
-}
-
-.cta-btn {
-    display: inline-block;
-    margin-top: var(--spacing-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border: 2px solid var(--secondary-color);
-    background-color: var(--main-color); /* Added for visibility */
-    color: var(--secondary-color);
-    font-weight: bold;
-    text-decoration: none;
-    border-radius: 5px;
-    transform: scale(1);
-    transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
-}
-
-.cta-btn:hover {
-    transform: scale(1.05);
-    background-color: var(--secondary-color);
-    color: var(--main-color);
-}
-
-.hero {
-    height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.hero picture, .hero img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-}
-
-.overlay {
-    background-color: rgba(28, 28, 28, 0.7);
-    padding: var(--spacing-lg);
-    border-radius: 10px;
-    position: relative;
-    z-index: 2;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--secondary-color);
-}
-
-.hero p {
-    font-size: 1.25rem;
-    margin: var(--spacing-md) 0;
-    color: var(--secondary-color);
-}
-
-.countdown {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-    margin: var(--spacing-md) 0;
-}
-
-.about, .featured {
-    padding: var(--spacing-lg);
-    text-align: center;
-}
-
-.about h2, .featured h2 {
-    font-size: 2rem;
-    margin-bottom: var(--spacing-md);
-}
-
-.about p {
-    max-width: 600px;
-    margin: 0 auto var(--spacing-md);
-    color: var(--secondary-color);
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-md);
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.product {
-    background: rgba(245, 245, 240, 0.1);
-    padding: var(--spacing-md);
-    border-radius: 5px;
-}
-
-.product img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
-
-.product h3 {
-    font-size: 1.2rem;
-    color: var(--secondary-color);
-    margin: var(--spacing-sm) 0;
-}
-
-.product p {
-    color: var(--secondary-color);
-}
-
-.shop, .cart, .contact, .login, .account {
-    padding: var(--spacing-lg);
-    text-align: center;
-}
-
-.shop h1, .cart h1, .contact h1, .login h1, .account h1 {
-    font-size: 2rem;
-    margin-bottom: var(--spacing-md);
-}
-
-.contact form, .login form, .account form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.contact input, .contact textarea, .contact select, .login input {
-    padding: var(--spacing-sm);
-    border: 2px solid var(--secondary-color);
-    background: transparent;
-    color: var(--secondary-color);
-    border-radius: 5px;
-}
-
-.contact select {
-    background: var(--main-color);
-}
-
-.contact input:focus, .contact textarea:focus, .contact select:focus, .login input:focus {
-    outline: none;
-    border-color: #ffffff;
-}
-
-.login form p.error {
-    color: #ff6666;
-    font-size: 0.9rem;
-}
-
-.social-links {
-    margin-top: var(--spacing-md);
-}
-
-.social-links a {
-    margin: 0 var(--spacing-sm);
-    text-decoration: none;
-}
-
-.banner {
-    background: var(--accent-color);
-    color: var(--secondary-color);
-    text-align: center;
-    padding: var(--spacing-sm);
-    font-weight: 600;
 }
 
 @media (max-width: 768px) {
     .hamburger {
         display: block;
     }
+
     nav {
         display: none;
-        flex-direction: column;
         position: absolute;
         top: 60px;
         left: 0;
-        width: 100%;
-        background-color: var(--main-color);
-        padding: var(--spacing-md);
+        right: 0;
+        background-color: #222;
+        flex-direction: column;
+        padding: 1rem;
+        text-align: center;
     }
+
     nav.active {
         display: flex;
     }
-    nav a, nav .cart-icon {
-        margin: var(--spacing-sm) 0;
+
+    nav a {
+        margin: 0.5rem 0;
     }
-    .hero h1 {
-        font-size: 2rem;
-    }
-    .hero p {
-        font-size: 1rem;
-    }
+}
+
+/* Cart Icon */
+.cart-icon {
+    display: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.cart-icon.active {
+    display: inline-block;
+}
+
+/* Main Sections */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Headings */
+h1, h2, h3 {
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.8rem;
+}
+
+/* Shop Page */
+.shop {
+    text-align: center;
+}
+
+.note {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.product {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.product h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.product p {
+    font-size: 1rem;
+    color: #b0b0b0;
+}
+
+/* Buttons */
+.cta-btn {
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+    background-color: #555;
+}
+
+/* Login Page */
+.login {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.login label {
+    text-align: left;
+    font-weight: 600;
+}
+
+.login input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+}
+
+.signup-only {
+    display: none;
+}
+
+.login p {
+    margin-top: 1rem;
+}
+
+.login a {
+    color: #b0b0b0;
+    text-decoration: underline;
+}
+
+.login a:hover {
+    color: #fff;
+}
+
+/* Account Page */
+.account {
+    text-align: center;
+}
+
+.account ul {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+.account li {
+    background-color: #2a2a2a;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border-radius: 4px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #222;
+    margin-top: 2rem;
+}
+
+.social-links {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-links a {
+    text-decoration: none;
+    font-weight: 600;
 }
