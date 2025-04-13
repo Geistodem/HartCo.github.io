@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HART Co - Minimalist clothing from Nashville. Pre-order our first drop of T-shirts and hoodies now!">
+    <meta name="description" content="HART Co: Minimalist T-shirts and hoodies from Nashville. Log in to pre-order our first drop!">
     <meta name="keywords" content="HART Co, minimalist clothing, T-shirts, hoodies, Nashville brand, pre-order">
     <meta name="author" content="HART Co">
-    <title>HART Co - Minimalist Clothing</title>
+    <title>HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
@@ -32,10 +32,40 @@
 
     <main>
         <section class="hero">
-            <h1 class="gradient-text">HART Co</h1>
-            <p>Minimalist clothing from Nashville. First drop coming April 30, 2025.</p>
-            <div id="countdown">Loading countdown...</div>
-            <a href="shop.html" class="cta-btn">Pre-Order Now</a>
+            <picture>
+                <source srcset="assets/nashville-skyline.webp" type="image/webp">
+                <img src="assets/hero.jpg" alt="Person wearing minimalist HART Co T-shirt in Nashville">
+            </picture>
+            <div class="overlay">
+                <h1 id="heroText"></h1>
+                <p>Minimalist. Bold. Nashville-Crafted.</p>
+                <p class="countdown" id="countdown"></p>
+                <a href="login.html" class="cta-btn">Log In to Pre-Order</a>
+            </div>
+        </section>
+
+        <section class="about">
+            <h2 class="gradient-text">Made with Heart</h2>
+            <p>At HART Co, we handcraft T-shirts and hoodies in Nashville using sustainable fabrics. Our first drop launches April 30—log in to secure your limited pre-order!</p>
+            <a href="login.html" class="cta-btn">Join the Drop</a>
+        </section>
+
+        <section class="featured">
+            <h2 class="gradient-text">First Drop Preview</h2>
+            <div class="product-grid">
+                <div class="product">
+                    <img src="assets/tee.jpg" alt="Handmade HART Co Basic Tee">
+                    <h3>Basic Tee</h3>
+                    <p>$29.99</p>
+                    <a href="login.html" class="cta-btn">Pre-Order</a>
+                </div>
+                <div class="product">
+                    <img src="assets/hoodie.jpg" alt="Handmade HART Co Minimalist Hoodie">
+                    <h3>Minimalist Hoodie</h3>
+                    <p>$49.99</p>
+                    <a href="login.html" class="cta-btn">Pre-Order</a>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -49,5 +79,30 @@
 
     <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
     <script src="scripts.js"></script>
+    <script>
+        const phrases = ["Lead with Heart", "Drops April 30", "Limited First Drop"];
+        let currentPhrase = 0;
+        let currentChar = 0;
+        const heroText = document.getElementById("heroText");
+
+        function typeEffect() {
+            if (currentChar < phrases[currentPhrase].length) {
+                heroText.textContent += phrases[currentPhrase].charAt(currentChar);
+                currentChar++;
+                setTimeout(typeEffect, 100);
+            } else {
+                setTimeout(() => {
+                    heroText.textContent = "";
+                    currentChar = 0;
+                    currentPhrase = (currentPhrase + 1) % phrases.length;
+                    typeEffect();
+                }, 2000);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            typeEffect();
+        });
+    </script>
 </body>
 </html>
