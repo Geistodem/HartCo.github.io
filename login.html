@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
@@ -51,6 +51,7 @@
             <p id="toggleForm">
                 Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
             </p>
+            <p><a href="#" onclick="resetPassword()">Forgot Password?</a></p>
         </section>
     </main>
 
@@ -74,6 +75,17 @@
             document.querySelectorAll('.signup-only').forEach(el => {
                 el.style.display = isSignup ? 'none' : 'block';
             });
+        }
+
+        function resetPassword() {
+            const email = document.getElementById('email').value;
+            if (!email) {
+                alert('Please enter your email.');
+                return;
+            }
+            firebase.auth().sendPasswordResetEmail(email)
+                .then(() => alert('Password reset email sent!'))
+                .catch(error => alert(error.message));
         }
     </script>
 </body>
