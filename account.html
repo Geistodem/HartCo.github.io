@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your HART Co account. View your pre-orders for our first drop!">
+    <meta name="description" content="View your HART Co account and pre-orders.">
     <meta name="keywords" content="HART Co, account, pre-orders">
     <meta name="author" content="HART Co">
     <title>Account - HART Co</title>
@@ -11,10 +11,10 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
@@ -33,11 +33,9 @@
     <main>
         <section class="account">
             <h1 class="gradient-text">Welcome, <span id="userName">User</span>!</h1>
+            <h2>Your Pre-Orders</h2>
+            <ul id="preOrdersList"></ul>
             <button id="logoutButton" class="cta-btn">Log Out</button>
-            <h2 class="gradient-text">Your Pre-Orders</h2>
-            <ul id="preOrdersList">
-                <li>Loading...</li>
-            </ul>
         </section>
     </main>
 
