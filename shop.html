@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pre-order HART Co’s T-shirts and hoodies. Limited first drop ships April 30!">
-    <meta name="keywords" content="HART Co, T-shirts, hoodies, minimalist clothing, Nashville brand, pre-order">
+    <meta name="description" content="Shop HART Co's minimalist T-shirts and hoodies. Pre-order now for our first drop!">
+    <meta name="keywords" content="HART Co, minimalist clothing, T-shirts, hoodies, Nashville brand, pre-order">
+    <meta name="author" content="HART Co">
     <title>Shop - HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -12,14 +13,14 @@
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
 </head>
 <body>
-    <div class="banner">Only 50 Pre-Orders Total! Ships April 30.</div>
+    <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
             <a href="index.html" class="gradient-text">Home</a>
             <a href="shop.html" class="gradient-text">Shop</a>
             <a href="contact.html" class="gradient-text">Contact</a>
-            <a href="account.html" class="gradient-text" id="loginLink">Account</a>
+            <a href="login.html" class="gradient-text" id="loginLink">Login</a>
             <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
         </nav>
         <div class="hamburger" id="hamburger">☰</div>
@@ -27,46 +28,29 @@
 
     <main>
         <section class="shop">
-            <h1 class="gradient-text">Pre-Order First Drop</h1>
-            <p class="countdown" id="countdown"></p>
+            <h1 class="gradient-text">Shop the First Drop</h1>
             <div class="product-grid">
                 <div class="product">
-                    <img src="assets/tee.jpg" alt="Handmade HART Co Basic Tee">
+                    <img src="assets/stag-tee.png" alt="HART Co Basic Tee with Stag Design">
                     <h3>Basic Tee</h3>
                     <p>$29.99</p>
                     <button class="snipcart-add-item cta-btn"
-                        data-item-id="tee-1"
+                        data-item-id="basic-tee"
                         data-item-price="29.99"
                         data-item-url="/shop.html"
-                        data-item-name="Handmade Basic Tee"
-                        data-item-description="100% organic cotton, crafted in Nashville"
-                        data-item-image="/assets/tee.jpg"
-                        data-item-max-quantity="25"
-                        data-item-shipping="5.00"
-                        data-item-custom1-name="Pre-Order"
-                        data-item-custom1-type="readonly"
-                        data-item-custom1-value="Ships by April 30, 2025">
-                        Pre-Order Now
-                    </button>
+                        data-item-name="Basic Tee"
+                        data-item-image="/assets/stag-tee.png">Pre-Order Now</button>
                 </div>
                 <div class="product">
                     <img src="assets/hoodie.jpg" alt="Handmade HART Co Minimalist Hoodie">
                     <h3>Minimalist Hoodie</h3>
                     <p>$49.99</p>
                     <button class="snipcart-add-item cta-btn"
-                        data-item-id="hoodie-1"
+                        data-item-id="minimalist-hoodie"
                         data-item-price="49.99"
                         data-item-url="/shop.html"
                         data-item-name="Minimalist Hoodie"
-                        data-item-description="Sustainable and cozy, crafted in Nashville"
-                        data-item-image="/assets/hoodie.jpg"
-                        data-item-max-quantity="25"
-                        data-item-shipping="5.00"
-                        data-item-custom1-name="Pre-Order"
-                        data-item-custom1-type="readonly"
-                        data-item-custom1-value="Ships by April 30, 2025">
-                        Pre-Order Now
-                    </button>
+                        data-item-image="/assets/hoodie.jpg">Pre-Order Now</button>
                 </div>
             </div>
         </section>
@@ -82,21 +66,5 @@
 
     <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
     <script src="scripts.js"></script>
-    <script>
-        document.querySelectorAll('.snipcart-add-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const user = JSON.parse(localStorage.getItem('loggedInUser'));
-                if (user) {
-                    let users = JSON.parse(localStorage.getItem('users')) || [];
-                    let currentUser = users.find(u => u.email === user.email);
-                    if (currentUser) {
-                        const itemName = btn.dataset.itemName;
-                        currentUser.preOrders.push(itemName);
-                        localStorage.setItem('users', JSON.stringify(users));
-                    }
-                }
-            });
-        });
-    </script>
 </body>
 </html>
