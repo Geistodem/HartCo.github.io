@@ -1,13 +1,12 @@
-// Firebase Configuration (Replace with your actual config from Firebase Console)
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyA8cadJkRLEXIzLJ1cFAAEsQONE_Y1yeKQ",
-  authDomain: "hart-co-clothing.firebaseapp.com",
-  projectId: "hart-co-clothing",
-  storageBucket: "hart-co-clothing.firebasestorage.app",
-  messagingSenderId: "340063171574",
-  appId: "1:340063171574:web:25a5a7104b95c2503e4dd7",
-  measurementId: "G-GWXVQ15RQN"
-};
+    apiKey: "AIzaSyA8cadJkRLEXIzLJ1cFAAEsQONE_Y1yeKQ",
+    authDomain: "hart-co-clothing.firebaseapp.com",
+    projectId: "hart-co-clothing",
+    storageBucket: "hart-co-clothing.firebasestorage.app",
+    messagingSenderId: "340063171574",
+    appId: "1:340063171574:web:25a5a7104b95c2503e4dd7",
+    measurementId: "G-GWXVQ15RQN"
 };
 
 // Initialize Firebase
