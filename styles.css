@@ -264,6 +264,34 @@ h2 {
     border-radius: 4px;
 }
 
+/* Cart Page */
+.cart {
+    text-align: center;
+}
+
+.cart p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.cart .snipcart-checkout {
+    margin-top: 1rem;
+}
+
+/* Contact Page */
+.contact {
+    text-align: center;
+}
+
+.contact p {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.contact .social-links {
+    margin-top: 1rem;
+}
+
 /* Footer */
 footer {
     text-align: center;
