@@ -9,10 +9,10 @@ const firebaseConfig = {
     measurementId: "G-GWXVQ15RQN"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+console.log('Firebase auth:', auth);
 
 document.addEventListener('DOMContentLoaded', () => {
     // Hamburger menu
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Active page (with normalized URLs)
+    // Active page
     document.querySelectorAll('nav a').forEach(link => {
         const linkPath = new URL(link.href).pathname;
         const currentPath = new URL(window.location.href).pathname;
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Countdown timer (with minutes)
+    // Countdown timer
     const countdownElement = document.getElementById('countdown');
     if (countdownElement) {
         const launchDate = new Date('2025-04-30T23:59:59').getTime();
@@ -53,9 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCountdown();
     }
 
-    // Handle authentication state (with null check)
+    // Handle authentication state
     const loginLink = document.getElementById('loginLink');
     auth.onAuthStateChanged(user => {
+        console.log('Auth state changed:', user);
         if (loginLink) {
             if (user) {
                 loginLink.textContent = 'Account';
@@ -66,12 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Protect account page
         if (window.location.pathname.includes('account.html') && !user) {
             window.location.href = 'login.html';
         }
 
-        // Update account page with user info
         if (window.location.pathname.includes('account.html') && user) {
             document.getElementById('userName').textContent = user.displayName || 'User';
             loadUserPreOrders(user.uid);
@@ -91,10 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Initial check
     updateCartVisibility();
 
-    // Listen for Snipcart events
     document.addEventListener('snipcart.ready', () => {
         Snipcart.events.on('cart.confirmed', () => {
             updateCartVisibility();
@@ -106,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCartVisibility();
         });
 
-        // Limit pre-orders to 50
         Snipcart.events.on('item.adding', (item) => {
             return db.collectionGroup('preOrders').get()
                 .then(snapshot => {
@@ -118,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Require login to add items to cart (with debouncing)
     const addToCartButtons = document.querySelectorAll('.snipcart-add-item');
     addToCartButtons.forEach(button => {
         let isProcessing = false;
@@ -134,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Login/Signup form handling (with password length validation)
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -143,9 +137,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             const name = document.getElementById('name')?.value;
             const confirmPassword = document.getElementById('confirmPassword')?.value;
+            console.log('Form submitted:', { email, password, name, confirmPassword });
 
             if (name && confirmPassword) {
-                // Sign-up
+                console.log('Attempting sign-up...');
                 if (password !== confirmPassword) {
                     alert('Passwords do not match.');
                     return;
@@ -156,28 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 auth.createUserWithEmailAndPassword(email, password)
                     .then(userCredential => {
+                        console.log('Sign-up successful:', userCredential.user);
                         return userCredential.user.updateProfile({ displayName: name });
                     })
                     .then(() => {
+                        console.log('Profile updated, redirecting...');
                         window.location.href = 'account.html';
                     })
                     .catch(error => {
+                        console.error('Sign-up error:', error);
                         alert(error.message);
                     });
             } else {
-                // Login
+                console.log('Attempting login...');
                 auth.signInWithEmailAndPassword(email, password)
                     .then(() => {
+                        console.log('Login successful, redirecting...');
                         window.location.href = 'account.html';
                     })
                     .catch(error => {
+                        console.error('Login error:', error);
                         alert(error.message);
                     });
             }
         });
     }
 
-    // Logout (with error handling)
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', () => {
@@ -192,7 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Load user's pre-orders from Firestore (with loading state and error handling)
 function loadUserPreOrders(uid) {
     const preOrdersList = document.getElementById('preOrdersList');
     if (!preOrdersList) return;
@@ -218,7 +216,6 @@ function loadUserPreOrders(uid) {
         });
 }
 
-// Save pre-order to Firestore when Snipcart order is confirmed (with error handling)
 document.addEventListener('snipcart.ready', () => {
     Snipcart.events.on('cart.confirmed', (cart) => {
         const user = auth.currentUser;
