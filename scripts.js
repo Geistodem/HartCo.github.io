@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loginLink.href = 'login.html';
     }
 
-    // Protect shop and account pages
-    if ((window.location.pathname.includes('shop.html') || window.location.pathname.includes('account.html')) && !loggedInUser) {
+    // Protect account page only
+    if (window.location.pathname.includes('account.html') && !loggedInUser) {
         window.location.href = 'login.html';
     }
 
@@ -87,6 +87,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         Snipcart.events.on('item.removed', () => {
             updateCartVisibility();
+        });
+    });
+
+    // Add login check for adding items to cart
+    const addToCartButtons = document.querySelectorAll('.snipcart-add-item');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            if (!loggedInUser) {
+                e.preventDefault(); // Stop Snipcart action
+                alert('Please log in to add items to your cart.');
+                window.location.href = 'login.html';
+            }
+            // If logged in, Snipcart will handle the add-to-cart action
         });
     });
 });
