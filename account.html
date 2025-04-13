@@ -3,23 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Your HART Co account to pre-order T-shirts and hoodies.">
-    <meta name="keywords" content="HART Co, T-shirts, hoodies, account, pre-order">
+    <meta name="description" content="Your HART Co account. View your pre-orders for our first drop!">
+    <meta name="keywords" content="HART Co, account, pre-orders">
+    <meta name="author" content="HART Co">
     <title>Account - HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
 </head>
 <body>
-    <div class="banner">Only 50 Pre-Orders Total! Secure Yours!</div>
+    <div class="banner">Pre-Orders Live! First Drop Ships April 30.</div>
     <header>
         <a href="./index.html" class="logo gradient-text">🦌 HART Co</a>
         <nav id="navMenu" aria-label="Main navigation">
             <a href="index.html" class="gradient-text">Home</a>
             <a href="shop.html" class="gradient-text">Shop</a>
             <a href="contact.html" class="gradient-text">Contact</a>
-            <a href="account.html" class="gradient-text" id="loginLink">Account</a>
+            <a href="login.html" class="gradient-text" id="loginLink">Login</a>
             <a href="cart.html" class="cart-icon gradient-text">🛒 <span class="snipcart-items-count">0</span></a>
         </nav>
         <div class="hamburger" id="hamburger">☰</div>
@@ -27,11 +32,12 @@
 
     <main>
         <section class="account">
-            <h1 class="gradient-text">Welcome, <span id="userName"></span>!</h1>
-            <p>Join our exclusive April 30 drop—only 50 pre-orders available!</p>
-            <p id="preOrderStatus">You haven’t pre-ordered yet.</p>
-            <a href="shop.html" class="cta-btn">Pre-Order Now</a>
-            <button id="logoutBtn" class="cta-btn">Log Out</button>
+            <h1 class="gradient-text">Welcome, <span id="userName">User</span>!</h1>
+            <button id="logoutButton" class="cta-btn">Log Out</button>
+            <h2 class="gradient-text">Your Pre-Orders</h2>
+            <ul id="preOrdersList">
+                <li>Loading...</li>
+            </ul>
         </section>
     </main>
 
@@ -43,25 +49,7 @@
         </div>
     </footer>
 
-    <div hidden id="snipcart" data-api-key="YOUR_SNIPCART_API_KEY"></div>
+    <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
     <script src="scripts.js"></script>
-    <script>
-        const user = JSON.parse(localStorage.getItem('loggedInUser'));
-        if (!user) {
-            window.location.href = 'login.html';
-        } else {
-            document.getElementById('userName').textContent = user.name;
-            const users = JSON.parse(localStorage.getItem('users')) || [];
-            const currentUser = users.find(u => u.email === user.email);
-            if (currentUser && currentUser.preOrders.length > 0) {
-                document.getElementById('preOrderStatus').textContent = `You’ve pre-ordered ${currentUser.preOrders.length} item(s).`;
-            }
-        }
-
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('loggedInUser');
-            window.location.href = 'index.html';
-        });
-    </script>
 </body>
 </html>
