@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Log in or sign up to pre-order HART Co's minimalist T-shirts and hoodies.">
+    <meta name="description" content="Log in or sign up to pre-order HART Co minimalist clothing.">
     <meta name="keywords" content="HART Co, login, sign up, pre-order">
     <meta name="author" content="HART Co">
     <title>Login - HART Co</title>
@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
-    <!-- Firebase SDK (Compatibility Mode) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -32,7 +31,7 @@
 
     <main>
         <section class="login">
-            <h1 class="gradient-text" id="formTitle">Login</h1>
+            <h1 id="formTitle" class="gradient-text">Login</h1>
             <form id="loginForm">
                 <div class="signup-only">
                     <label for="name">Name:</label>
@@ -46,12 +45,10 @@
                     <label for="confirmPassword">Confirm Password:</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
                 </div>
-                <button type="submit" class="cta-btn">Submit</button>
+                <button type="submit" class="cta-btn">Login</button>
             </form>
-            <p id="toggleForm">
-                Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
-            </p>
-            <p><a href="#" onclick="resetPassword()">Forgot Password?</a></p>
+            <div id="errorMessage" class="error-message"></div>
+            <p id="toggleText">Don't have an account? <a href="#" id="toggleForm">Sign Up</a></p>
         </section>
     </main>
 
@@ -66,27 +63,24 @@
     <div hidden id="snipcart" data-api-key="YWYyNmUxMmEtNjRlYS00ZmZmLWEyNzctMTcxNDE0ZjMyZDJhNjM4ODAwMzk5NTM3NDQ3Mzgz"></div>
     <script src="scripts.js"></script>
     <script>
-        function toggleForm() {
-            const isSignup = document.getElementById('formTitle').textContent === 'Sign Up';
-            document.getElementById('formTitle').textContent = isSignup ? 'Login' : 'Sign Up';
-            document.getElementById('toggleForm').innerHTML = isSignup
-                ? `Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a>`
-                : `Already have an account? <a href="#" onclick="toggleForm()">Login</a>`;
-            document.querySelectorAll('.signup-only').forEach(el => {
-                el.style.display = isSignup ? 'none' : 'block';
-            });
-        }
+        const formTitle = document.getElementById('formTitle');
+        const toggleText = document.getElementById('toggleText');
+        const toggleForm = document.getElementById('toggleForm');
+        const loginForm = document.getElementById('loginForm');
+        const signupFields = document.querySelectorAll('.signup-only');
 
-        function resetPassword() {
-            const email = document.getElementById('email').value;
-            if (!email) {
-                alert('Please enter your email.');
-                return;
-            }
-            firebase.auth().sendPasswordResetEmail(email)
-                .then(() => alert('Password reset email sent!'))
-                .catch(error => alert(error.message));
-        }
+        toggleForm.addEventListener('click', e => {
+            e.preventDefault();
+            const isLogin = formTitle.textContent === 'Login';
+            formTitle.textContent = isLogin ? 'Sign Up' : 'Login';
+            toggleText.innerHTML = isLogin
+                ? 'Already have an account? <a href="#" id="toggleForm">Login</a>'
+                : 'Don\'t have an account? <a href="#" id="toggleForm">Sign Up</a>';
+            loginForm.querySelector('button').textContent = isLogin ? 'Sign Up' : 'Login';
+            signupFields.forEach(field => {
+                field.style.display = isLogin ? 'block' : 'none';
+            });
+        });
     </script>
 </body>
 </html>
