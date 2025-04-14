@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Shop HART Co's minimalist T-shirts and hoodies. Pre-order now for our first drop!">
-    <meta name="keywords" content="HART Co, minimalist clothing, T-shirts, hoodies, Nashville brand, pre-order">
+    <meta name="description" content="Shop HART Co minimalist T-shirts and hoodies. Pre-order now for our first drop!">
+    <meta name="keywords" content="HART Co, shop, minimalist clothing, T-shirts, hoodies, pre-order">
     <meta name="author" content="HART Co">
     <title>Shop - HART Co</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
-    <!-- Firebase SDK (Compatibility Mode) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -33,18 +32,22 @@
     <main>
         <section class="shop">
             <h1 class="gradient-text">Shop the First Drop</h1>
-            <p class="note">Log in to pre-order your favorites!</p>
+            <p class="note">Note: You must be logged in to pre-order.</p>
+            <div id="errorMessage" class="error-message"></div>
             <div class="product-grid">
                 <div class="product">
-                    <img src="assets/stag-tee.png" alt="HART Co Basic Tee with Stag Design">
+                    <img src="assets/tee.jpg" alt="Handmade HART Co Basic Tee">
                     <h3>Basic Tee</h3>
                     <p>$29.99</p>
                     <button class="snipcart-add-item cta-btn"
                         data-item-id="basic-tee"
                         data-item-price="29.99"
                         data-item-url="/shop.html"
-                        data-item-name="Basic Tee"
-                        data-item-image="/assets/stag-tee.png">Pre-Order Now</button>
+                        data-item-description="Handmade minimalist T-shirt."
+                        data-item-image="/assets/tee.jpg"
+                        data-item-name="Basic Tee">
+                        Add to Cart
+                    </button>
                 </div>
                 <div class="product">
                     <img src="assets/hoodie.jpg" alt="Handmade HART Co Minimalist Hoodie">
@@ -54,8 +57,11 @@
                         data-item-id="minimalist-hoodie"
                         data-item-price="49.99"
                         data-item-url="/shop.html"
-                        data-item-name="Minimalist Hoodie"
-                        data-item-image="/assets/hoodie.jpg">Pre-Order Now</button>
+                        data-item-description="Handmade minimalist hoodie."
+                        data-item-image="/assets/hoodie.jpg"
+                        data-item-name="Minimalist Hoodie">
+                        Add to Cart
+                    </button>
                 </div>
             </div>
         </section>
