@@ -17,6 +17,29 @@ try {
     console.log('Firebase auth:', auth);
 } catch (error) {
     console.error('Firebase initialization error:', error);
+    displayError('Failed to initialize Firebase. Please try again later.');
+}
+
+// Error Display Function
+function displayError(message) {
+    const errorMessageDiv = document.getElementById('errorMessage');
+    if (errorMessageDiv) {
+        errorMessageDiv.textContent = message;
+        errorMessageDiv.style.display = 'block';
+        setTimeout(() => {
+            errorMessageDiv.style.display = 'none';
+        }, 5000); // Hide after 5 seconds
+    } else {
+        console.warn('Error message div not found on this page.');
+    }
+}
+
+// Clear Error Function
+function clearError() {
+    const errorMessageDiv = document.getElementById('errorMessage');
+    if (errorMessageDiv) {
+        errorMessageDiv.style.display = 'none';
+    }
 }
 
 // Countdown Timer for Index Page
@@ -72,6 +95,7 @@ const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', e => {
         e.preventDefault();
+        clearError();
         console.log('Form submitted');
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -81,7 +105,7 @@ if (loginForm) {
             const name = document.getElementById('name').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             if (password !== confirmPassword) {
-                alert('Passwords do not match!');
+                displayError('Passwords do not match.');
                 return;
             }
             console.log('Attempting sign-up');
@@ -96,7 +120,7 @@ if (loginForm) {
                 })
                 .catch(error => {
                     console.error('Sign-up error:', error);
-                    alert(error.message);
+                    handleAuthError(error);
                 });
         } else {
             console.log('Attempting login');
@@ -107,10 +131,39 @@ if (loginForm) {
                 })
                 .catch(error => {
                     console.error('Login error:', error);
-                    alert(error.message);
+                    handleAuthError(error);
                 });
         }
     });
+}
+
+// Handle Specific Firebase Auth Errors
+function handleAuthError(error) {
+    switch (error.code) {
+        case 'auth/email-already-in-use':
+            displayError('This email is already in use. Please log in or use a different email.');
+            break;
+        case 'auth/invalid-email':
+            displayError('Invalid email address. Please check and try again.');
+            break;
+        case 'auth/weak-password':
+            displayError('Password is too weak. Please use a stronger password (at least 6 characters).');
+            break;
+        case 'auth/wrong-password':
+            displayError('Incorrect password. Please try again.');
+            break;
+        case 'auth/user-not-found':
+            displayError('No account found with this email. Please sign up.');
+            break;
+        case 'auth/requires-recent-login':
+            displayError('This action requires recent login. Please log in again.');
+            firebase.auth().signOut().then(() => {
+                window.location.href = 'login.html';
+            });
+            break;
+        default:
+            displayError('An error occurred: ' + error.message);
+    }
 }
 
 // Account Page Handling
@@ -125,27 +178,33 @@ if (userName && preOrdersList && logoutButton) {
             db.collection('preOrders').where('userId', '==', user.uid).get()
                 .then(querySnapshot => {
                     preOrdersList.innerHTML = '';
-                    querySnapshot.forEach(doc => {
-                        const order = doc.data();
-                        const li = document.createElement('li');
-                        li.textContent = `${order.itemName} - $${order.price}`;
-                        preOrdersList.appendChild(li);
-                    });
+                    if (querySnapshot.empty) {
+                        preOrdersList.innerHTML = '<li>No pre-orders found.</li>';
+                    } else {
+                        querySnapshot.forEach(doc => {
+                            const order = doc.data();
+                            const li = document.createElement('li');
+                            li.textContent = `${order.itemName} - $${order.price}`;
+                            preOrdersList.appendChild(li);
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching pre-orders:', error);
+                    displayError('Failed to load pre-orders. Please try again later.');
                 });
         }
     });
 
     logoutButton.addEventListener('click', () => {
+        clearError();
         firebase.auth().signOut()
             .then(() => {
                 window.location.href = 'index.html';
             })
             .catch(error => {
                 console.error('Logout error:', error);
-                alert(error.message);
+                displayError('Failed to log out. Please try again.');
             });
     });
 }
@@ -159,17 +218,18 @@ const deleteAccountButton = document.getElementById('deleteAccountButton');
 if (updateNameForm) {
     updateNameForm.addEventListener('submit', e => {
         e.preventDefault();
+        clearError();
         const newName = document.getElementById('newName').value;
         const user = firebase.auth().currentUser;
         if (user) {
             user.updateProfile({ displayName: newName })
                 .then(() => {
-                    alert('Name updated successfully!');
+                    displayError('Name updated successfully!', true);
                     userName.textContent = newName;
                 })
                 .catch(error => {
                     console.error('Error updating name:', error);
-                    alert(error.message);
+                    handleAuthError(error);
                 });
         }
     });
@@ -178,19 +238,20 @@ if (updateNameForm) {
 if (updateEmailForm) {
     updateEmailForm.addEventListener('submit', e => {
         e.preventDefault();
+        clearError();
         const newEmail = document.getElementById('newEmail').value;
         const user = firebase.auth().currentUser;
         if (user) {
             user.updateEmail(newEmail)
                 .then(() => {
-                    alert('Email updated successfully! Please log in again.');
+                    displayError('Email updated successfully! Please log in again.', true);
                     firebase.auth().signOut().then(() => {
                         window.location.href = 'login.html';
                     });
                 })
                 .catch(error => {
                     console.error('Error updating email:', error);
-                    alert(error.message);
+                    handleAuthError(error);
                 });
         }
     });
@@ -199,24 +260,25 @@ if (updateEmailForm) {
 if (updatePasswordForm) {
     updatePasswordForm.addEventListener('submit', e => {
         e.preventDefault();
+        clearError();
         const newPassword = document.getElementById('newPassword').value;
         const confirmNewPassword = document.getElementById('confirmNewPassword').value;
         if (newPassword !== confirmNewPassword) {
-            alert('Passwords do not match!');
+            displayError('Passwords do not match.');
             return;
         }
         const user = firebase.auth().currentUser;
         if (user) {
             user.updatePassword(newPassword)
                 .then(() => {
-                    alert('Password updated successfully! Please log in again.');
+                    displayError('Password updated successfully! Please log in again.', true);
                     firebase.auth().signOut().then(() => {
                         window.location.href = 'login.html';
                     });
                 })
                 .catch(error => {
                     console.error('Error updating password:', error);
-                    alert(error.message);
+                    handleAuthError(error);
                 });
         }
     });
@@ -224,6 +286,7 @@ if (updatePasswordForm) {
 
 if (deleteAccountButton) {
     deleteAccountButton.addEventListener('click', () => {
+        clearError();
         if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
             const user = firebase.auth().currentUser;
             if (user) {
@@ -241,12 +304,14 @@ if (deleteAccountButton) {
                         return user.delete();
                     })
                     .then(() => {
-                        alert('Account deleted successfully.');
-                        window.location.href = 'index.html';
+                        displayError('Account deleted successfully.', true);
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
                     })
                     .catch(error => {
                         console.error('Error deleting account:', error);
-                        alert(error.message);
+                        handleAuthError(error);
                     });
             }
         }
@@ -256,6 +321,7 @@ if (deleteAccountButton) {
 // Snipcart Cart Confirmation
 document.addEventListener('snipcart.ready', () => {
     Snipcart.events.on('cart.confirmed', (cart) => {
+        clearError();
         const user = firebase.auth().currentUser;
         if (user) {
             cart.items.items.forEach(item => {
@@ -266,8 +332,11 @@ document.addEventListener('snipcart.ready', () => {
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 }).catch(error => {
                     console.error('Error saving pre-order:', error);
+                    displayError('Failed to save pre-order. Please try again.');
                 });
             });
+        } else {
+            displayError('You must be logged in to save pre-orders.');
         }
     });
 });
