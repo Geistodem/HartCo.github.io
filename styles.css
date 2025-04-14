@@ -1,10 +1,3 @@
-css
-
-Collapse
-
-Wrap
-
-Copy
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -38,6 +31,18 @@ body {
     background: linear-gradient(90deg, #ffffff, #b0b0b0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+/* Error Message */
+.error-message {
+    color: #ff5555;
+    background-color: rgba(50, 0, 0, 0.8);
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+    display: none;
 }
 
 /* Banner */
