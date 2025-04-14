@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="styles.css">
     <script async src="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.js"></script>
     <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.0/default/snipcart.css">
-    <!-- Firebase SDK (Compatibility Mode) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -36,21 +35,16 @@
 
             <h2>Account Settings</h2>
             <div class="settings">
-                <!-- Update Display Name -->
                 <form id="updateNameForm" class="settings-form">
                     <label for="newName">Update Name:</label>
                     <input type="text" id="newName" name="newName" placeholder="New Name" required>
                     <button type="submit" class="cta-btn">Update Name</button>
                 </form>
-
-                <!-- Update Email -->
                 <form id="updateEmailForm" class="settings-form">
                     <label for="newEmail">Update Email:</label>
                     <input type="email" id="newEmail" name="newEmail" placeholder="New Email" required>
                     <button type="submit" class="cta-btn">Update Email</button>
                 </form>
-
-                <!-- Change Password -->
                 <form id="updatePasswordForm" class="settings-form">
                     <label for="newPassword">New Password:</label>
                     <input type="password" id="newPassword" name="newPassword" placeholder="New Password" required>
@@ -58,12 +52,11 @@
                     <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm Password" required>
                     <button type="submit" class="cta-btn">Change Password</button>
                 </form>
-
-                <!-- Delete Account -->
                 <div class="delete-account">
                     <button id="deleteAccountButton" class="cta-btn danger">Delete Account</button>
                 </div>
             </div>
+            <div id="errorMessage" class="error-message"></div>
 
             <h2>Your Pre-Orders</h2>
             <ul id="preOrdersList"></ul>
